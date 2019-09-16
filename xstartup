@@ -1,6 +1,6 @@
 xhost + &
 xterm -geometry 80x24+0+0i &
-autocutsel -s PRIMARY -fork
+autocutsel -fork
 startlxde
 vncserver -kill :1
 pkill tail
