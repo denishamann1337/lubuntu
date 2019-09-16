@@ -19,19 +19,19 @@ ENV KILL_ALL_PROCESSES_TIMEOUT=300
 
 # Install lubuntu-desktop
 COPY sources.list /etc/apt/sources.list
-RUN dpkg --remove-architecture i386 && \
-    apt-get update && \
-    apt-get install -yqq sudo wget curl htop nano whois figlet p7zip p7zip-full zip unzip rar unrar && \
-    apt-get update -yqq && apt-get dist-upgrade -yqq && \
-    apt-get install -yqq lubuntu-desktop && \
-    apt-get install -yqq tightvncserver && \
-    apt-get install -yqq git git-lfs bzr mercurial subversion gnupg gnupg2 tzdata gvfs-bin && \
-    apt-get install -yqq gnome-system-monitor tilix && \
-    apt-get install -yqq python-apt python-xlib net-tools telnet bash bash-completion lsb-base lsb-release lshw zsh && \
-    apt-get install -yqq dconf-cli dconf-editor clipit xclip python3-xlib python3-pip breeze-cursor-theme htop xterm && \
-    apt-get autoremove -y && \
-    ln -fs /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh && \
-    update-alternatives --set x-terminal-emulator $(which tilix)
+RUN dpkg --remove-architecture i386
+RUN apt-get update
+RUN apt-get install -yqq sudo wget curl htop nano whois figlet p7zip p7zip-full zip unzip rar unrar
+RUN apt-get update -yqq && apt-get dist-upgrade -yqq
+RUN apt-get install -yqq lubuntu-desktop
+RUN apt-get install -yqq tightvncserver
+RUN apt-get install -yqq git git-lfs bzr mercurial subversion gnupg gnupg2 tzdata gvfs-bin
+RUN apt-get install -yqq gnome-system-monitor tilix
+RUN apt-get install -yqq python-apt python-xlib net-tools telnet bash bash-completion lsb-base lsb-release lshw zsh
+RUN apt-get install -yqq dconf-cli dconf-editor clipit xclip python3-xlib python3-pip breeze-cursor-theme htop xterm
+RUN apt-get autoremove -y
+RUN ln -fs /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
+RUN update-alternatives --set x-terminal-emulator $(which tilix)
 
 RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata
@@ -41,8 +41,7 @@ RUN wget https://raw.githubusercontent.com/sormuras/bach/master/install-jdk.sh;c
 RUN curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
 RUN wget -O swamp https://github.com/felixb/swamp/releases/latest/download/swamp_amd64;chmod +x swamp
 RUN wget -O ideaIU-2019.2.1.tar.gz https://download.jetbrains.com/idea/ideaIU-2019.2.2.tar.gz;tar -xfz ideaIU-2019.2.2.tar.gz
-
-
+RUN wget -O studio-3t-linux-x64.tar.gz https://download.studio3t.com/studio-3t/linux/2019.5.0/studio-3t-linux-x64.tar.gz; tar -xfz studio-3t-linux-x64.tar.gz
 
 # install ohmyzshell
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
