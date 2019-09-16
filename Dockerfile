@@ -31,7 +31,7 @@ RUN apt-get install -yqq python-apt python-xlib net-tools telnet bash bash-compl
 RUN apt-get install -yqq dconf-cli dconf-editor clipit xclip python3-xlib python3-pip breeze-cursor-theme htop xterm
 RUN apt-get autoremove -y
 RUN ln -fs /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
-RUN update-alternatives --set x-terminal-emulator $(which tilix)
+#RUN update-alternatives --set x-terminal-emulator $(which tilix)
 
 RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata
