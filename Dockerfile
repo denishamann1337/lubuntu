@@ -40,7 +40,7 @@ RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && \
 RUN wget https://raw.githubusercontent.com/sormuras/bach/master/install-jdk.sh;chmod +x install-jdk.sh
 RUN curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
 RUN wget -O swamp https://github.com/felixb/swamp/releases/latest/download/swamp_amd64;chmod +x swamp
-RUN wget -O ideaIU-2019.2.1.tar.gz https://download.jetbrains.com/idea/ideaIU-2019.2.2.tar.gz;tar -xfz ideaIU-2019.2.2.tar.gz
+RUN wget -O ideaIU-2019.2.2.tar.gz https://download.jetbrains.com/idea/ideaIU-2019.2.2.tar.gz;tar -xfz ideaIU-2019.2.2.tar.gz
 RUN wget -O studio-3t-linux-x64.tar.gz https://download.studio3t.com/studio-3t/linux/2019.5.0/studio-3t-linux-x64.tar.gz; tar -xfz studio-3t-linux-x64.tar.gz
 
 # install ohmyzshell
