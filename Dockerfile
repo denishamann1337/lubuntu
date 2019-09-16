@@ -22,6 +22,8 @@ COPY sources.list /etc/apt/sources.list
 RUN dpkg --remove-architecture i386
 RUN apt-get update
 RUN apt-get install -yqq sudo wget curl htop nano whois figlet p7zip p7zip-full zip unzip rar unrar
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+RUN echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
 RUN apt-get update -yqq && apt-get dist-upgrade -yqq
 RUN apt-get install -yqq lubuntu-desktop
 RUN apt-get install -yqq tightvncserver
@@ -29,12 +31,16 @@ RUN apt-get install -yqq git git-lfs bzr mercurial subversion gnupg gnupg2 tzdat
 RUN apt-get install -yqq gnome-system-monitor tilix
 RUN apt-get install -yqq python-apt python-xlib net-tools telnet bash bash-completion lsb-base lsb-release lshw zsh
 RUN apt-get install -yqq dconf-cli dconf-editor clipit xclip python3-xlib python3-pip breeze-cursor-theme htop xterm
+RUN apt-get install -yqq libcurl4 openssl mongodb-org
 RUN apt-get autoremove -y
 RUN ln -fs /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
 #RUN update-alternatives --set x-terminal-emulator $(which tilix)
 
 RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata
+
+#wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+
 
 # get additonal software
 RUN wget https://raw.githubusercontent.com/sormuras/bach/master/install-jdk.sh;chmod +x install-jdk.sh
