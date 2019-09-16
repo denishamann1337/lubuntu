@@ -1,5 +1,8 @@
 FROM phusion/baseimage:0.11
 
+# reenable ssh
+RUN rm -f /etc/service/sshd/down
+
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
@@ -18,42 +21,37 @@ ENV KILL_ALL_PROCESSES_TIMEOUT=300
 COPY sources.list /etc/apt/sources.list
 RUN dpkg --remove-architecture i386 && \
     apt-get update && \
-    apt-get install -yqq sudo wget curl netcat aria2 nano whois figlet p7zip p7zip-full zip unzip rar unrar && \
-    add-apt-repository ppa:webupd8team/terminix -y && \
-    add-apt-repository ppa:clipgrab-team/ppa -y && \
-    add-apt-repository ppa:uget-team/ppa -y && \
-    add-apt-repository ppa:transmissionbt/ppa -y && \
-    add-apt-repository ppa:numix/ppa -y && \
-    add-apt-repository ppa:numix/numix-daily -y && \
-    add-apt-repository ppa:snwh/ppa -y && \
-    add-apt-repository ppa:mc3man/mpv-tests -y && \
-    add-apt-repository ppa:qbittorrent-team/qbittorrent-unstable -y && \
-    add-apt-repository ppa:neovim-ppa/stable -y && \
-    add-apt-repository ppa:webupd8team/java -y && \
-    add-apt-repository ppa:certbot/certbot -y && \
-    add-apt-repository ppa:chris-lea/redis-server -y && \
-    add-apt-repository ppa:brightbox/ruby-ng -y && \
-    echo "deb [trusted=yes] https://deb.torproject.org/torproject.org bionic main" | tee /etc/apt/sources.list.d/tor.list && \
-    echo "deb-src [trusted=yes] https://deb.torproject.org/torproject.org bionic main" | tee -a /etc/apt/sources.list.d/tor.list && \
-    curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-    echo "deb [trusted=yes] https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-    curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
-    curl -sL https://deb.nodesource.com/setup_8.x | bash && \
+    apt-get install -yqq sudo wget curl htop nano whois figlet p7zip p7zip-full zip unzip rar unrar && \
     apt-get update -yqq && apt-get dist-upgrade -yqq && \
     apt-get install -yqq lubuntu-desktop && \
     apt-get install -yqq tightvncserver && \
-    apt-get install -yqq git git-lfs bzr mercurial subversion command-not-found command-not-found-data gnupg gnupg2 tzdata gvfs-bin && \
+    apt-get install -yqq git git-lfs bzr mercurial subversion gnupg gnupg2 tzdata gvfs-bin && \
     apt-get install -yqq gnome-system-monitor tilix && \
-    apt-get install -yqq python-apt python-xlib net-tools telnet bash bash-completion lsb-base lsb-release lshw && \
-    apt-get install -yqq dconf-cli dconf-editor clipit xclip flashplugin-installer caffeine python3-xlib breeze-cursor-theme htop xterm && \
-    apt-get install -yqq numix-gtk-theme numix-icon-theme-circle && \
-    apt-get install -yqq tor deb.torproject.org-keyring polipo && \
+    apt-get install -yqq python-apt python-xlib net-tools telnet bash bash-completion lsb-base lsb-release lshw zsh && \
+    apt-get install -yqq dconf-cli dconf-editor clipit xclip python3-xlib python3-pip breeze-cursor-theme htop xterm && \
     apt-get autoremove -y && \
     ln -fs /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh && \
     update-alternatives --set x-terminal-emulator $(which tilix)
 
-RUN ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && \
+RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata
+
+# get additonal software
+RUN wget https://raw.githubusercontent.com/sormuras/bach/master/install-jdk.sh;chmod +x install-jdk.sh
+RUN curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
+RUN wget -O swamp https://github.com/felixb/swamp/releases/latest/download/swamp_amd64;chmod +x swamp
+RUN wget -O ideaIU-2019.2.1.tar.gz https://download.jetbrains.com/idea/ideaIU-2019.2.2.tar.gz;tar -xfz ideaIU-2019.2.2.tar.gz
+
+
+
+# install ohmyzshell
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+# install addiotnal software
+RUN dpkg -i session-manager-plugin.deb
+RUN ./install-jdk.sh -f 12 --target ./jdk12
+ENV PATH="${PATH}:./jdk12/bin"
+RUN python3 -m pip install awscli
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
