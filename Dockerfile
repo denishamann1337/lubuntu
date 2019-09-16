@@ -26,8 +26,8 @@ RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key 
 RUN echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
 RUN apt-get update -yqq && apt-get dist-upgrade -yqq
 RUN apt-get install -yqq lubuntu-desktop
-#RUN apt-get install -yqq tightvncserver
-RUN apt-get install -yqq tigervnc-common tigervnc-standalone-server tigervnc-xorg-extension
+RUN apt-get install -yqq tightvncserver
+#RUN apt-get install -yqq tigervnc-common tigervnc-standalone-server tigervnc-xorg-extension
 RUN apt-get install -yqq git git-lfs bzr mercurial subversion gnupg gnupg2 tzdata gvfs-bin
 RUN apt-get install -yqq gnome-system-monitor tilix
 RUN apt-get install -yqq python-apt python-xlib net-tools telnet bash bash-completion lsb-base lsb-release lshw zsh
