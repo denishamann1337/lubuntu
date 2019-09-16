@@ -3,7 +3,7 @@ Lubuntu Desktop in Docker
 ## take a look
 
 ```bash
-docker run -d --hostname lubuntu --name lubuntu --restart always -p 5901:5901 -e TZ=Asia/Jakarta vncserver/lubuntu
+docker run -d --hostname lubuntu --name lubuntu --restart always -p 5901:5901 -e TZ=Europe/Berlin vncserver/lubuntu
 ```
 
 ### default vnc
